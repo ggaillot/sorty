@@ -27,7 +27,7 @@ class MyController extends Controller
     */
     public function importExportView()
     {        if (is_null(Auth::user())){return Redirect::to('/login')->with('error', 'connexion nécessaire');}
- if (session('role')<>'admin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+ if (session('role')<>'admin' and session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
        return view('import');
     }
 
@@ -43,13 +43,24 @@ class MyController extends Controller
     * @return \Illuminate\Support\Collection
     */
 public function import()
-    {
+    { if (is_null(request()->file('file'))){return Redirect::to('/importExportView')->with('error', 'le fichier est manquant');  }
     //importation fichier extérieur
         DB::table('usertemps')->delete();
         Excel::import(new UsersImport,request()->file('file'));
                     //analyse table Usertemp et mise à jour
                     // mettre toutes les fiches à statut = 4
                     $users=User::all();$usertemps=Usertemp::all();
+
+// test email duppliqué
+foreach ($usertemps as $usertemp)
+           {$mail= $usertemp->email;
+            $countemail=$aa=Usertemp::where('email',$mail)->count();
+          if ($countemail>1 ){return Redirect::to('/importExportView')->with('error', 'le mail '.$mail.' est présent plusieurs fois');  }
+           }
+
+
+
+
  foreach ($users as $user){$user->statut=4;$user->save();}
 
                             foreach ($usertemps as $usertemp)
@@ -63,16 +74,16 @@ public function import()
                                                                 if ($emailuser==$emailusertemp){$x=1;
                                                                     if ($user->name==$usertemp->name and
                                                                     $user->firstname==$usertemp->firstname and
-                                                                    $user->tel==$usertemp->tel and
-                                                                    $user->ajour==$usertemp->ajour)
+                                                                    $user->tel==$usertemp->tel)
                                                                     {$user->statut=1;$user->save();}
                                                                    else
                                                                     {$user->name=$usertemp->name ;
                                                                      $user->firstname=$usertemp->firstname ;
                                                                      $user->tel=$usertemp->tel;
                                                                      $user->email=$usertemp->email ;
-                                                                     $user->ajour=$usertemp->ajour;
-                                                                     $user->role=$usertemp->role;
+                                                                     //$user->ajour=$usertemp->ajour;
+                                                                     //$user->role=$usertemp->role;
+
                                                                      $user->statut=2;
                                                                      $user->save();}}
                                                                      else{
@@ -84,9 +95,10 @@ public function import()
                                                  $user->firstname=$usertemp->firstname ;
                                                  $user->email=$usertemp->email ;
                                                  $user->tel=$usertemp->tel;
-                                                 $user->ajour=$usertemp->ajour;
+                                                 $user->ajour=1;
                                                  $user->statut=3;
                                                  $user->role='membre';
+                                                 $user->password=$usertemp->password;
                                                  $user->save(); }
 
 

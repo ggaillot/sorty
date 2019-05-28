@@ -32,19 +32,24 @@ $x=$x+1;if($x<10){$x="0".$x;}
                         echo '> non</td>
 
                      <td ><label for="tel" ></label><input  type="text" style="width: 220px;" name="email" value="'. $user->email .'" ></td>
-                      <td ><label for="email" ></label><input  type="text" style="width: 180px;" name="tel" value="'. $user->tel .'" ></td>
+                      <td ><label for="email" ></label><input  type="text" style="width: 180px;" name="tel" value="'. $user->tel .'" ></td>';
+if (session('role')=='superadmin'){
+                          echo '<td ><input type="radio" name="role" value="invité"';
+                        if ($user->role=='invité'){echo 'checked';}
+                       echo '> invité / ';
 
-
-                         <td ><input type="radio" name="role" value="membre"';
+                         echo '<td ><input type="radio" name="role" value="membre"';
                         if ($user->role=='membre'){echo 'checked';}
-                       echo '> membre<input type="radio" name="role" value="admin"';
+                       echo '>membre / <input type="radio" name="role" value="admin"';
                         if ($user->role=='admin'){echo 'checked';}
-                        echo '> admin</td>
+                        echo '>admin / <input type="radio" name="role" value="superadmin"';
+                        if ($user->role=='superadmin'){echo 'checked';}
 
+                     echo '>superadmin </td>';
 
+}
 
-
-                       <td style="width: 50px;"><button type="submit" class="btn btn-primary btn-sm">Enregistrer</button></td>
+     echo '<td style="width: 50px;"><button type="submit" class="btn btn-primary btn-sm">Enregistrer</button></td>
                       <td style="width: 50px;"><a href="/users/'.$user->id.'/destroy"><img src="images/Delete.png" alt="edit"/></a></td>
 
                     </font></b></form></tr>';

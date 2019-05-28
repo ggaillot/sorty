@@ -22,7 +22,7 @@ class CreateUsertempsTable extends Migration
             $table->boolean('ajour')->default("1");
             $table->string('tel')->nullable();
             $table->string('statut')->default("1");
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -20,15 +20,15 @@ class UsersImport implements ToModel,WithHeadingRow
     public function model(array $row)
     {
         return new Usertemp([
-            'name'  => $row['name'],
-            'firstname'  => $row['firstname'],
-            'role'  => $row['role'],
-            'ajour'  => $row['ajour'],
+            'name'  => $row['nom'],
+            'firstname'  => $row['prenom'],
+            //'role'  => 'membre',
+            'ajour'  => '1',
             'tel'  => $row['tel'],
             //'statut'  => $row['statut'],
 
             'email' => $row['email'],
-           // 'password' => \Hash::make('123456'),
+            'password' => \Hash::make('123456')
         ]);
 
 

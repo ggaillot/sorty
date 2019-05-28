@@ -14,7 +14,7 @@
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
- {{session('firstname')}}   {{session('name')}}     /     sortie {{$sors->typ}} du {{  Date::parse($sors->dat)->format('l j F ') }}
+ {{$users->firstname}}   {{$users->name}}     /     sortie {{$sors->typ}} du {{  Date::parse($sors->dat)->format('l j F ') }}
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

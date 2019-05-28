@@ -34,7 +34,7 @@ $date = date('d-m-Y');
         }
     /** comment
      *
-     * créer un user admin
+     * créer un user superadmin
      *
      */
             $user = new User;
@@ -43,13 +43,13 @@ $date = date('d-m-Y');
             $user->email = 'a@a.fr';
             $user->password = bcrypt('aaaaaaaa');
             $user->tel = '0692 000 000';
-        $user->role = 'admin';
+        $user->role = 'superadmin';
         $user->statut = rand(1,3);
         $user->ajour = true;
         $user->save();
     /** comment
      *
-     * créer un user membre
+     * créer un user admin
      *
      */
             $user = new User;
@@ -58,10 +58,26 @@ $date = date('d-m-Y');
             $user->email = 'b@b.fr';
             $user->password = bcrypt('bbbbbbbb');
             $user->tel = '0692 000 000';
+        $user->role = 'admin';
+        $user->statut = rand(1,3);
+        $user->ajour = true;
+        $user->save();
+    /** comment
+     * créer un user membre
+     *
+     */
+            $user = new User;
+            $user->name = 'c';
+            $user->firstname = 'c';
+            $user->email = 'c@c.fr';
+            $user->password = bcrypt('cccccccc');
+            $user->tel = '0692 000 000';
         $user->role = 'membre';
         $user->statut = rand(1,3);
         $user->ajour = true;
         $user->save();
+
+
 
  for ($i = 0; $i < 10; $i++)
          {

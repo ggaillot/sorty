@@ -10,7 +10,15 @@
     <title>{{ config('app.name', 'Parapangue') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+<script>
+function mymessage()
+{
+alert("- Pour s'incrire à une sortie, il faut être adhérent au club\n- Les sorties coûtent trois tickets, l'inscription est définitive la veille 14H, il sera réclamé les trois tickets aux absents\n- Validation des sorties à partir de cinq inscrits\n- Pierre Killian est responsable navette et sorties :  0692 77 73 58\n- Jacques Aulet gère le listing des membres : 0692 88 09 21\n- Si vous n'avez pas de mot de passe, vous pouvez en obtenir un avec le lien 'pour vous connecter ou obtenir un mot de passe'\n- Appeler Jacques ou Pierre en cas de problème avec le mot de passe");
+}
+</script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="alert.js"></script>
+<script src="{{ asset('js/app.js') }}" defer></script>
 
 
     <!-- Fonts -->
@@ -26,18 +34,8 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ 'Sorties Parapangue' }}
                 </a>
-                <a class="btn btn-secondary" href="/partarchive" role="button">archives</a>
-     <a class="btn btn-secondary" href="/particips" role="button">planning</a>
-<?php
-if (session('role')=='admin') {  ?>
 
-     <a class="btn btn-secondary" href="/users" role="button">utilisateurs</a>
-     <a class="btn btn-secondary" href="/sors" role="button">sorties</a>
-     <a class="btn btn-secondary" href="/importExportView" role="button">import-export</a>
 
-<?php
-}
-?>
 
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -46,19 +44,45 @@ if (session('role')=='admin') {  ?>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+
+                   <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item"> <a class="nav-link" href="http://www.parapangue.re" role="button">parapangue</a></li>
+     <li class="nav-item"> <a class="nav-link" href="/particips" role="button">planning</a></li>
+     <li class="nav-item"> <a class="nav-link" href="/partarchive" role="button">archives</a></li>
+
+@if (session('role')=='superadmin')
+    <li class="nav-item">  <a class="nav-link" href="/sors" role="button">edit sorties</a></li>
+    <li class="nav-item"> <a class="nav-link" href="/userslist" role="button">list utilis.</a></li>
+    <li class="nav-item"> <a class="nav-link" href="/users" role="button">modif</a></li>
+    <li class="nav-item"> <a class="nav-link" href="/users2" role="button">pass</a></li>
+    <li class="nav-item"> <a class="nav-link" href="/importExportView" role="button">import</a></li>
+@endif
+
+
+@if (session('role')=='admin')
+    <li class="nav-item">  <a class="nav-link" href="/sors" role="button">edit sorties</a></li>
+    <li class="nav-item"> <a class="nav-link" href="/userslist" role="button">liste des utilisateurs</a></li>
+
+@endif
+
 
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
+
+                  <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+
+
                         @guest
+
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                               <a class="nav-link" href="{{ route('login') }}">{{ __( 'Pour vous connecter, ou obtenir un mot de passe') }}</a>
                             </li>
                             @if (Route::has('register'))
+
                                 <li class="nav-item">
+
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('') }}</a>
                                 </li>
                             @endif
@@ -72,7 +96,7 @@ if (session('role')=='admin') {  ?>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Déconnexion') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

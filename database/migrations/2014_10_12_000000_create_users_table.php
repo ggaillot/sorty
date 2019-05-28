@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('role');
             $table->boolean('ajour');
             $table->string('tel');
-            $table->string('statut');
+            $table->string('statut')->default("3");
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

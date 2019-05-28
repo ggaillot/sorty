@@ -14,7 +14,7 @@
 Participant : {{ $user->firstname."  ".$user->name}} <br>
 Date de la sortie : {{ Date::parse($sor2->dat)->format('l j F Y ')."  / sortie :".$sor2->typ }} <br>
 Date d'incription : {{ Date::parse($particip->inscription)->format('l j F Y H:i:s')}}<br><br><br>
-<?php if (session('role')=='admin')
+<?php if (session('role')=='admin' or session('role')=='superadmin')
 {
 ?>
 Une nouvelle date d'inscription implique un nouvel ordre de priorité dépendant de cette date<br>
@@ -35,7 +35,7 @@ Une nouvelle date d'inscription implique un nouvel ordre de priorité dépendant
                         <div class="form-group">
 
                             <div class="col-md-6">
-                                <textarea rows = '2' cols = '80' id="comment_particip" type="comment_particip" class="form-control" name="comment_particip"></textarea>
+                                <textarea rows = '2' cols = '80' id="comment_particip" type="comment_particip" class="form-control" name="comment_particip" value ="{{$particip->comment_particip}}">{{$particip->comment_particip}}</textarea>
                             </div>
                         </div>
 

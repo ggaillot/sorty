@@ -29,7 +29,7 @@ class SorController extends Controller
     public function index()
     {
     $sors = Sor::orderBy('dat','Desc')->get();
-    if (session('role')<>'admin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+    if (session('role')<>'admin' and session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
     return view('sorsindex',compact('sors'));
 
     }
@@ -85,7 +85,8 @@ public function show(Sor $sor)
     public function update(Request $request, Sor $sor)
     {
         $sor->update($request->all());
-        return Redirect::to('/home')->with('success', 'votre sortie est modifiée');
+        return Redirect::to(session('origine'))->with('success', 'votre sortie est modifiée');
+
     }
 
     /**
@@ -104,7 +105,7 @@ public function show(Sor $sor)
       public function destroy(Sor $sor)
         {
             $sor->delete();
-            return 'Sortie supprimée !';
+           return Redirect::to('/sors')->with('success', 'votre sortie est supprimée');
         }
 
         public function destroyForm(Sor $sor)

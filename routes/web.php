@@ -13,8 +13,9 @@
 
 Route::get('/', 'ParticipController@index');
 Route::get('/index', 'ParticipController@index');
+Route::get('/userslist', 'UserController@list')->name('userslist');
 Auth::routes();
-
+Route::get('/index2', function () { return 'Hello World';});
 Route::get('/home', 'ParticipController@index')->name('home');
 Route::resource('users', 'UserController');
 Route::resource('sors', 'SorController');
@@ -34,3 +35,6 @@ Route::post('/send2','EmailController@send2')->name('send2');
 Route::get('export', 'MyController@export')->name('export');
 Route::get('importExportView', 'MyController@importExportView');
 Route::post('import', 'MyController@import')->name('import');
+Route::get('/users2', 'UserController@index2');
+Route::put('users2/{user}', 'UserController@update2')->name('users.update2');
+

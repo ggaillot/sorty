@@ -19,7 +19,7 @@ class CreateSorsTable extends Migration
             $table->date('dat');
             $table->text('comment_sor')->nullable();
             $table->string('typ')->default("normale");
-
+            $table->string('email')->default("0");
 
         });
     }

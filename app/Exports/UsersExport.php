@@ -18,7 +18,7 @@ class UsersExport implements FromCollection,WithHeadings
     {
         //return User::all();
 
-//        return DB::select('SELECT sorty.users.name, sorty.users.firstname, sorty.users.role, sorty.users.ajour, sorty.users.tel, sorty.users.email FROM sorty.users ORDER BY sorty.users.name,sorty.users.firstname');
+//        return DB::select('SELECT SELECT users.name, users.firstname, users.role, users.ajour, users.tel, users.email FROM users ORDER BY users.name,users.firstname');
         return DB::table('users')->select('name', 'firstname','email','tel','ajour')->orderBy('name')->orderBy('firstname')->get();
        // return User::orderBy('name','Asc')->get();
     }
@@ -26,11 +26,10 @@ class UsersExport implements FromCollection,WithHeadings
     public function headings(): array
     {
         return [
-            'name',
-            'firstname',
+           'nom',
+            'prenom',
             'email',
-            'tel',
-            'ajour'
+            'tel'
 
         ];
     }

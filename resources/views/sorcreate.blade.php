@@ -1,5 +1,22 @@
 @extends('layouts.app')
 @section('content')
+
+
+
+<script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=u09gw419us2lohpwyiyh0i094lcjkyc7ffudd5zyz9er9m0x"></script>
+
+<script>
+  tinymce.init({
+   selector: 'textarea',
+     height: 300,
+width:900,
+  menubar: false,
+   plugins: ' link ',
+   toolbar: 'bold italic underline forecolor  fontsizeselect| alignleft aligncenter alignright | link removeformat |',
+});
+</script>
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

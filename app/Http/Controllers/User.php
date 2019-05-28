@@ -22,10 +22,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() //
 
     {
-         if (session('role')<>'admin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+        session(['creauser' => 'users']);
+         if (session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
 
          $users=User::orderBy('name','Asc')->get();
          return view('usersindex',compact('users'));
@@ -38,10 +39,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
     public function create()
     {
 
-         if (session('role')<>'admin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+         if (session('role')<>'admin' and session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
          return view('create');
     }
 
@@ -53,9 +58,13 @@ class UserController extends Controller
      */
  public function store(Request $request)
 {
+    $mail= $request->input('email');
+    $countemail=User::where('email',$mail)->count();
+    if ($countemail>0 ){return Redirect::to(session('creauser'))->with('error', 'le mail '.$mail.' est déjà présent ');  }
     User::create($request->all());
+return Redirect::to(session('creauser'))->with('success', 'utilisateur enregistré ');
 
-    return Redirect::to('/users')->with('success', 'utilisateur enregistré');
+   // return Redirect::to('/users')->with('success', 'utilisateur enregistré');
 }
 
     /**
@@ -68,7 +77,7 @@ class UserController extends Controller
 
 public function show(User $user)
 {
-     if (session('role')<>'admin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+     if (session('role')<>'admin' and session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
     echo 'Nom :' . $user->name . '<br>';
     echo 'Email :' . $user->email . '<br>';
 }
@@ -80,29 +89,34 @@ public function show(User $user)
      */
         public function edit(User $user)
     {
-         if (session('role')<>'admin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+         if (session('role')<>'admin' and session('role')<>'superadmin' ){return Redirect::to('/')->with('error', 'accès non autorisé');}
         return view('edit', compact('user'));
+
     }
     public function update(Request $request, User $user)
     {
         $user->update($request->all());
-
          return redirect ('users')->with('success', 'fiche de '.$user->firstname." ".$user->name." modifiée " );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
+    public function update2(Request $request, User $user)
+    {
+       $password = bcrypt($request->input('password'));
+       $user->password=$password;
+       $user->save();
+
+       return redirect ('users2')->with('success', 'MOT DE PASSE de '.$user->firstname." ".$user->name." modifiée " );
+    }
+
+
+
+
+
+
       public function destroy(User $user)
         {
 $particips=Particip::all();
@@ -112,8 +126,32 @@ $particips=Particip::all();
 
         public function destroyForm(User $user)
     {
-         if (session('role')<>'admin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+         if (session('role')<>'admin' and session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
         return view('destroy', compact('user'));
+    }
+
+public function list()
+{
+
+    if (session('role')<>'admin' and session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+    $users=User::orderBy('name','Asc')->get();
+return view('userslist', compact('users'));
+
+}
+
+
+public function index2()
+{
+
+ if (session('role')<>'superadmin'){return Redirect::to('/')->with('error', 'accès non autorisé');}
+
+         $users=User::orderBy('name','Asc')->get();
+         return view('usersindex2',compact('users'));
+
+}
+    public function create()
+    {
+         return view('create');
     }
 
 

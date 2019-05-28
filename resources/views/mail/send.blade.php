@@ -2,25 +2,30 @@
 <head>
 <meta content="text/html; charset=ISO-8859-1"
 http-equiv="content-type">
-<title></title>
+<script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=u09gw419us2lohpwyiyh0i094lcjkyc7ffudd5zyz9er9m0x"></script>
+
+<script>
+  tinymce.init({
+   selector: 'textarea',
+     height: 650,
+width:1100,
+  menubar: false,
+   plugins: ' advcode casechange formatpainter link lists   mediaembed pageembed permanentpen powerpaste ',
+   toolbar: 'undo redo | formatselect | bold italic underline forecolor  fontselect fontsizeselect| alignleft aligncenter alignright alignjustify |link table | removeformat |',
+});
+</script>
 </head>
 <body>
-<div style="margin-left: 40px;"><h1>Sorties Parapangue</h1><br>
-
-envoi email aux différents participants<BR><BR>
-
-<?php
-$text='';$virgule='';
-
-                  $x=1;
-                  echo '<BR> <b>';
+  <?php
+                  $text='';$virgule=''; $x=1;
                   $title= Date::parse($sors->dat)->format('l j F  ').' / sortie '.$sors->typ;
-                  echo $title;
-                  echo'<BR></b>';
-
                   $comment=$sors->comment_sor;
                   $n=$sors->id;
-  $text=$text. '<table style="text-align: left; width: 1100PX; height: 25px;" border="0"
+                  session(['origine' => 'send/'.$n]);
+
+$text='<h3>Parapangue<br>'.$title.'</h3>';
+$text=$text.'<font color="blue">'.$comment.'<br><br></font><b>Liste des participants</b>';
+  $text=$text.'<table style="text-align: left; width: 1000PX; height: 25px;" border="0"
     cellpadding="2" cellspacing="2">
     <tbody>';
  foreach($particips as $particip)
@@ -28,49 +33,53 @@ $text='';$virgule='';
         if($particip->sor_id==$n)
             {
 
-
+if ($x == 9){$text=$text. "<tr><td><td><u><font color='blue'>Liste d'attente<br></u></tr>"; }
              $text=$text. '<tr>
-                  <td style="width: 60px;">';
-             $text=$text. '</td>
-                  <td style="width: 210px;"><font color="white"> </font>';
+                  <td style="width: 20px;">';
+             $text=$text.  $x. '</td>
+                  <td style="width: 200px;"><font color="white"> </font>';
                   if ($x > 8){$text=$text.  '<font color="blue">'; }
-                  $text=$text.  $x." ".$particip->firstname.' '.$particip->name.'</td>
-                  <td style="width: 220px;">';
+                  $text=$text." ".$particip->firstname.' '.$particip->name.'</td>
+                  <td style="width: 70px;">';
                   if ($x > 8){$text=$text.  '<font color="blue">'; }
                   $text=$text.  '<FONT size="2pt"> tel :'. $particip->tel.' </td>
-                  <td style="width: 200px;">';
+                  <td style="width:70px;">';
                    if ($x > 8){$text=$text.  '<font color="blue">'; }
-                 $text=$text.  '<FONT size="2pt"> inscr. :'.Date::parse($particip->inscription)->format(' j F  h:m').'</font></td>
-                  <td style="width: 400px;">';
+                 $text=$text.  '<FONT size="2pt"> inscr. :'.Date::parse($particip->inscription)->format(' j F ').'</font></td>
+                  <td style="width: 300px;">';
                  if ($x > 8){$text=$text.  '<font color="blue">'; }
                   $text=$text.  '<FONT size="2pt">'.$particip->comment_particip.' </td>
                   </tr>' ;
-                  if ($x > 8){$text=$text.  '</font color>'; }
+                  if ($x > 8){$text=$text.  ''; }
                   $x=$x+1;
             }
         }
-            $text=$text.  ' </tbody>    </table>';
+            $text=$text.  " </tbody>    </table>
+
+<div style='margin-left: 40px;'><br>
+Ce courriel est automatique et est envoyé aux différents participants, depuis le site parapangue.re<br>
+-> vous pouvez échanger entre vous pour préparer cette sortie, les emails des participants sont dans l'entête du courriel<br>
+-> accès au planning par le menu 'planning sorties' du site http://parapangue.re ou <br>
+-> directement par http://sorties.16mb.com<br>
+<br>
+INFOS : <br>
+-> le planning est définitif à H-24,<br>
+-> la participation financière à la sortie sera due en cas d'abscence (cf décision du cd)<br>
+-> le tel de Pierre Killian : 0692 77 73 58<br>
+-> le tel de Franck, notre chauffeur : 0692 92 24 32<br><br></font></div>
+";
+
+//composants du mail
  ?>
              <form class="form-horizontal" method="POST" action="{{ route('send.update', 1) }}">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
+                                <textarea style="vertical-align: top;" rows = "5" cols = "90" name="commentmail" value="{{$text}}"  >{{$text}}</textarea>
                                 <input  type="hidden"  name="title" value="{{$title}}">
                                 <input  type="hidden"  name="id" value="{{$sors->id}}">
                                 <input  type="hidden"  name="text" value="{{$text}}">
-                               <BR> commentaire modifiable :<BR>
-                                <textarea rows = '2' cols = '120'  name="comment" value="{{$comment}}">{{$comment}}</textarea><BR><BR>
-Liste des participants
-<?php
-echo $text;
-$text2=$text;
 
-
-
-
-?>
-                                <BR><BR><button type="submit" class="btn btn-primary">
-                                    envoyer
-                                </button>
+                                <button type="submit" class="btn btn-primary">envoyer le courriel</button>
                                  <a class="btn btn-secondary" href="/particips" role="button">annuler</a>
                                 </form>
 
