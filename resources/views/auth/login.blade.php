@@ -10,7 +10,7 @@
                 <div class="card-body">
    @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                     <b>   {{ __('première connexion : créer un mot de passe') }}</b>
+                                     <b>   {{ __('cliquer ici pour une première connexion ==>> créer un mot de passe') }}</b>
                                     </a>
                   @endif
 

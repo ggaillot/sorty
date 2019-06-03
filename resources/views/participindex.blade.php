@@ -27,8 +27,8 @@ echo '<input type="button" onclick="mymessage()" value="Infos Sorties" title="In
 if ($sor->email<>0){echo ' <FONT size="1pt">email envoyé par '.$sor->autemail.' le '. Date::parse($sor->datemail)->format('j M  ').'</font>';}
 
                  }
-                  echo'<BR></b>';
-                  echo $sor->comment_sor. ' <BR>';
+                  echo'</b>';
+                  echo $sor->comment_sor. ' ';
                   $n=$sor->id;?>
 <table style="text-align: left;  height: 25px;" border="0"
 cellpadding="0" cellspacing="0">

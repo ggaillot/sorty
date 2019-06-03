@@ -60,7 +60,8 @@ public function update(request $request)
                                             if($x==1){$email=array($mail);}else{array_push($email, $mail);}
                                            }
         array_push($email, 'gaillot.gege@gmail.com');
-        array_push($email, 'sorties@parapangue.re');array_push($email, 'franck.ford@hotmail.fr');array_push($email, 'p_kilian@yahoo.fr');array_push($email, 'jacques.aulet@wanadoo.fr');
+        //array_push($email, 'sortie@parapangue.re');
+        array_push($email, 'franck.ford@hotmail.fr');array_push($email, 'p_kilian@yahoo.fr');array_push($email, 'jacques.aulet@wanadoo.fr');
         $emails=$email;
         session(['title' => $title]);
         session(['comment' => $comment]);
@@ -75,7 +76,7 @@ public function update(request $request)
         Mail::send('mail/send2', $data, function($message) use($emails, $data)
                     {
                         $subject=$data['subject'];
-                        $message->from('sorties@parapangue.re');
+                        $message->from('sortie@parapangue.re');
                         $message->to($emails);
                         $message->subject($subject);
                         //$message->from($address, $name = null);

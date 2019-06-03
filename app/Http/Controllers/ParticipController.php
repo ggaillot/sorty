@@ -189,7 +189,7 @@ if ($nb>8 and $ordre[$idparticip]<9){$text1="Prévenez---- ".$attente." ---- ce 
         Mail::send('mail/send2', $data, function($message) use($emails, $data)
                     {
                         $subject=$data['subject'];
-                        $message->from('sorties@parapangue.re');
+                        $message->from('sortie@parapangue.re');
                         $message->to($emails);
                         $message->subject($subject);
                     });
